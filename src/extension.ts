@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 import { commandIds, getCommand } from './name';
 
 let charsCountStatusBarItem: vscode.StatusBarItem;
+let globalSwitch = false;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -27,18 +28,25 @@ export function activate(context: vscode.ExtensionContext) {
 	charsCountStatusBarItem.command = getCommand(commandIds.counts);
 	// subscriptions.push(charsCountStatusBarItem);
 
+	let switchCommand = vscode.commands.registerCommand(getCommand(commandIds.begin), changeSwitch);
+
 	let countChars = vscode.commands.registerCommand(getCommand(commandIds.counts), ()=>{
 		const n = getTextCounts(vscode.window.activeTextEditor);
 		vscode.window.showInformationMessage(`厉害啊, 你已经写了 ${n} 字了，加油啊！`);
 	});
 
 	context.subscriptions.push(disposable, charsCountStatusBarItem,
+	countChars,
 	vscode.window.onDidChangeActiveTextEditor(updateStatusBarItem),
 	vscode.window.onDidChangeTextEditorSelection(updateStatusBarItem));
 	updateStatusBarItem();
 }
 
 function updateStatusBarItem(): void {
+	if (!globalSwitch) {
+		charsCountStatusBarItem.hide();
+		return;
+	}
 	let n = getTextCounts(vscode.window.activeTextEditor);
 	charsCountStatusBarItem.text = `$(notebook-render-output) ${n} 字`;
 	charsCountStatusBarItem.show();
@@ -50,6 +58,11 @@ function getTextCounts(editor: vscode.TextEditor | undefined): number {
 		lines = getWordCount(editor.document);
 	}
 	return lines;
+}
+
+function changeSwitch(): void {
+	globalSwitch = !globalSwitch;
+	updateStatusBarItem();
 }
 
 // 统计函数

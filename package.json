@@ -15,6 +15,14 @@
 		"*"
 	],
 	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+			  "command": "forwriter.begin",
+			  "title": "forwriter.begin: 开启/关闭写作模式"
+			}
+		]
+	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
