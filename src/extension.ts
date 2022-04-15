@@ -70,15 +70,14 @@ function getWordCount(doc: vscode.TextDocument): number {
 	// 当前编辑内容
 	const docContent: string = doc.getText();
 	const filterStr: string = docContent.replace(/\r\n/g, "\n");
-	// // 中文字数
-	// const chineseTotal: Array<string> = filterStr.match(/[\u4e00-\u9fa5]/g) || [];
-	// // 匹配单字字符
-	// const englishTotal: Array<string> = filterStr.match(/\b\w+\b/g) || [];
-	// // 匹配数字
-	// const letterTotal: Array<string> = filterStr.match(/\b\d+\b/g) || [];
-
-	// return (chineseTotal.length + (englishTotal.length - letterTotal.length)) || 0;
-	return filterStr.length;
+	// 中文字数
+	const chineseTotal: Array<string> = filterStr.match(/[\u4e00-\u9fa5]/g) || [];
+	// 匹配单字字符
+	const englishTotal: Array<string> = filterStr.match(/\b\w+\b/g) || [];
+	// 匹配数字
+	const letterTotal: Array<string> = filterStr.match(/\b\d+\b/g) || [];
+	return (chineseTotal.length + englishTotal.length) || 0;
+	// return filterStr.length;
 }
 
 // this method is called when your extension is deactivated

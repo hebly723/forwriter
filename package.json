@@ -2,7 +2,7 @@
   "name": "forwriter",
 	"displayName": "forwriter",
 	"description": "make vscode into your writing tool",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"repository": "https://github.com/hebly723/forwriter.git",
 	"publisher" : "remozhang",
 	"engines": {
